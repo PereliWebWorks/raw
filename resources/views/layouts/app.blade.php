@@ -10,7 +10,10 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     <!-- Scripts -->
+    @routes
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->

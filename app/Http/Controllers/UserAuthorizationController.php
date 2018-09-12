@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\UserAuthorization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class UserAuthorizationController extends Controller
 {
@@ -15,7 +16,8 @@ class UserAuthorizationController extends Controller
      */
     public function index()
     {
-        $unauthorized_users = \App\Users::doesntHave('user_authorizations')->get();
+        $authorized_users_ids = UserAuthorization::pluck('user_id')->all();
+        $unauthorized_users = User::whereNotIn('id', $authorized_users_ids)->get();
         return view('user_authorizations.index')
             ->with(['unauthorized_users' => $unauthorized_users]);
     }

@@ -15,8 +15,15 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+
+
+//Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('btn', require('./components/general/input/buttons/btn.vue'));
+Vue.component('delete-btn', require('./components/general/input/buttons/delete-btn.vue'));
+Vue.component('unauthorized-user-list', require('./components/unauthorized_users/UnauthorizedUserList.vue'));
 
 const app = new Vue({
     el: '#app'
 });
+
+const axios = require('axios');
