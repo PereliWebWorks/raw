@@ -8,6 +8,7 @@
 			<li v-for="(user, index) in unauthorized_user_list" :key="user.id">
 				{{user.name}}
 				<delete-btn @click.native="deleteUser(user.id, index)" />
+				<approve-btn @click.native="approveUser(user.id, index)" />
 			</li>
 		</ul>
 	</div>
@@ -25,7 +26,15 @@
 			deleteUser: function(id, index){
 				axios.delete(route('users.destroy', id))
 				.then(r => {
-					console.log(r);
+					this.unauthorized_user_list.splice(index, 1);
+				})
+				.catch(e => {
+					console.log(e);
+				})
+			},
+			approveUser: function(id, index){
+				axios.post(route('user_authorizations.store', {user_id: id}))
+				.then(r => {
 					this.unauthorized_user_list.splice(index, 1);
 				})
 				.catch(e => {

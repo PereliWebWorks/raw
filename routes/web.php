@@ -25,5 +25,5 @@ Route::middleware('is_authorized')->group(function () {
 
 Route::middleware('is_admin')->group(function () {
 	Route::resource('user_authorizations', 'UserAuthorizationController')
-		->only(['index', 'create', 'destroy']);
+		->only(['index']);
 });

@@ -22,5 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->group(function() {
 	Route::middleware('is_admin')->group(function() {
 		Route::apiResource('users', 'Api\UserController');
+		Route::apiResource('user_authorizations', 'Api\UserAuthorizationController');
+
 	});
 });

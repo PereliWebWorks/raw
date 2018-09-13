@@ -12,9 +12,14 @@
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
+
     <!-- Scripts -->
     @routes
     <script src="{{ asset('js/app.js') }}" defer></script>
+
+    @yield('component-registration')
+
+    @yield('styles')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">

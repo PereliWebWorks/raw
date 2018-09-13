@@ -16,10 +16,23 @@ window.Vue = require('vue');
  */
 
 
+//Load base components
 
-//Vue.component('example-component', require('./components/ExampleComponent.vue'));
-Vue.component('btn', require('./components/general/input/buttons/btn.vue'));
-Vue.component('delete-btn', require('./components/general/input/buttons/delete-btn.vue'));
+var baseComponentPath = './components/general/';
+var baseComponents = [
+	'input/buttons/btn',
+	'input/buttons/delete-btn',
+	'input/buttons/approve-btn'
+];
+
+baseComponents.forEach(fileName => {
+	var compName = fileName.split('/').pop();
+	Vue.component(compName, require(baseComponentPath + fileName + '.vue'));
+});
+
+
+//Load regular components
+
 Vue.component('unauthorized-user-list', require('./components/unauthorized_users/UnauthorizedUserList.vue'));
 
 const app = new Vue({

@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\UserAuthorization;
 
-class UserAuthorizationController extends Controller
+class ApiUserAuthorizationsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +24,7 @@ class UserAuthorizationController extends Controller
      */
     public function store(Request $request)
     {
-        return response()->json(UserAuthorization::create(['user_id' => $request->user_id]));
+        //
     }
 
     /**
@@ -37,6 +35,7 @@ class UserAuthorizationController extends Controller
      */
     public function show($id)
     {
+        //
     }
 
     /**
@@ -59,6 +58,6 @@ class UserAuthorizationController extends Controller
      */
     public function destroy($id)
     {
-        
+        //
     }
 }
