@@ -6,6 +6,8 @@
  */
 
 require('./bootstrap');
+import VueFormGenerator from "vue-form-generator/dist/vfg-core.js";
+import "vue-form-generator/dist/vfg-core.css";  // optional core css additions
 
 window.Vue = require('vue');
 
@@ -22,7 +24,8 @@ var baseComponentPath = './components/general/';
 var baseComponents = [
 	'input/buttons/btn',
 	'input/buttons/delete-btn',
-	'input/buttons/approve-btn'
+	'input/buttons/approve-btn',
+	'input/fields/text-base'
 ];
 
 baseComponents.forEach(fileName => {
@@ -34,6 +37,7 @@ baseComponents.forEach(fileName => {
 //Load regular components
 
 Vue.component('unauthorized-user-list', require('./components/unauthorized_users/UnauthorizedUserList.vue'));
+Vue.component('new-client-form', require('./components/clients/NewClientForm.vue'));
 
 const app = new Vue({
     el: '#app'

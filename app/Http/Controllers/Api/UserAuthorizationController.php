@@ -37,6 +37,7 @@ class UserAuthorizationController extends Controller
      */
     public function show($id)
     {
+        //
     }
 
     /**
