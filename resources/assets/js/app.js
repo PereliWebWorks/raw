@@ -38,6 +38,8 @@ baseComponents.forEach(fileName => {
 
 Vue.component('unauthorized-user-list', require('./components/unauthorized_users/UnauthorizedUserList.vue'));
 Vue.component('new-client-form', require('./components/clients/NewClientForm.vue'));
+Vue.component('new-property-form', require('./components/properties/NewPropertyForm.vue'));
+
 
 const app = new Vue({
     el: '#app'
