@@ -10,6 +10,6 @@ class Address extends Model
 	protected $fillable = ['address', 'property_id'];
 
     public function property(){
-    	$this->belongsTo('App\Property')
+    	return $this->belongsTo(Property::class);
     }
 }

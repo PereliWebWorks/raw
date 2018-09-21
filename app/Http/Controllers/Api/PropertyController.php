@@ -28,7 +28,7 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
         
-        if (!$request->address || size($request->address) === 0){
+        if (!$request->address || sizeof($request->address) === 0){
             return abort(400);
         }
 
@@ -38,7 +38,7 @@ class PropertyController extends Controller
         }
 
         foreach ($request->address as $address){
-            Address::->create(['property_id' => $property->id, 'address' => $address]);
+            Address::create(['property_id' => $property->id, 'address' => $address]);
         }
         return response(200);
     }

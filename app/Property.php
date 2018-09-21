@@ -10,6 +10,6 @@ class Property extends Model
 	protected $fillable = ['nickname'];
 
     public function addresses(){
-    	$this->hasMany('App\Address');
+    	return $this->hasMany(Address::class);
     }
 }

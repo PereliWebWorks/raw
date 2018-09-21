@@ -67665,6 +67665,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		submit: function submit(event) {
 			event.preventDefault();
+			axios.post(route('properties.store'), this.form).then(function () {
+				return console.log('It worked');
+			}).catch(function (e) {
+				return console.log(e);
+			});
 		}
 	}
 });

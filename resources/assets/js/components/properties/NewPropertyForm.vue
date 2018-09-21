@@ -50,6 +50,9 @@
 		methods: {
 			submit: function(event){
 				event.preventDefault();
+				axios.post(route('properties.store'), this.form)
+				.then(() => console.log('It worked'))
+				.catch(e => console.log(e));
 			}
 		}
 	}

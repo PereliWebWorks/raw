@@ -23,6 +23,6 @@ Route::middleware('auth:api')->group(function() {
 	Route::middleware('is_admin')->group(function() {
 		Route::apiResource('users', 'Api\UserController');
 		Route::apiResource('user_authorizations', 'Api\UserAuthorizationController');
-
+		Route::apiResource('properties', 'Api\PropertyController');
 	});
 });
