@@ -3,6 +3,6 @@
 
 @section('content')
 
-	<new-property-form></new-property-form>
+	<new-property-form />
 
 @endsection

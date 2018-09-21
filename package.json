@@ -20,6 +20,6 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "vue-form-generator": "^2.2.2"
+        "bootstrap-vue": "^2.0.0-rc.11"
     }
 }

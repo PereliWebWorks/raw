@@ -1,38 +1,56 @@
+
 <template>
-  <div class="panel-body">
-    <vue-form-generator :schema="schema"></vue-form-generator>
-  </div>
+	<b-form @submit="submit">
+		<b-form-group
+			label="Nickname: "
+			label-for="nickname"
+		>
+			<b-form-input 
+				id="nickname"
+				type="text"
+				v-model="form.nickname"
+				required
+			/>
+		</b-form-group>
+		<b-form-group
+			v-for="n in addressCount"
+			:label="'Address ' + n + ':'"
+			:label-for="'address-' + n"
+		>
+			<b-form-input 
+				:id="'address-' + n"
+				type="text"
+				name="address[]"
+				v-model="form.address[n-1]"
+				required
+			/>
+		</b-form-group>
+		<b-button-group class="mx-1">
+			<b-btn @click="addressCount++">Add Address</b-btn>
+			<b-btn @click="addressCount--">Remove Address</b-btn>
+		</b-button-group>
+		<br/>
+		<b-form-group>
+			<b-button type="submit" variant="primary">Submit</b-button>
+		</b-form-group>
+	</b-form>
 </template>
 
 <script>
-
-	import VueFormGenerator from "vue-form-generator";
-
-	Vue.use(VueFormGenerator);
-
-	export default{
+	export default {
 		data: function(){
 			return {
-				schema: {
-					fields: [
-						{
-							type: "input",
-							inputType: "text",
-							label: "Nickname",
-							required: true
-						},
-						{
-							type: "input",
-							inputType: "text",
-							label: "Address",
-							required: true
-						}
-					]
-				}
+				form: {
+					nickname: '',
+					address: []
+				},
+				addressCount: 1
 			}
 		},
-		components: {
-			"vue-form-generator": VueFormGenerator.component
+		methods: {
+			submit: function(event){
+				event.preventDefault();
+			}
 		}
 	}
 </script>

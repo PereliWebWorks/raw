@@ -6,11 +6,11 @@
  */
 
 require('./bootstrap');
-import VueFormGenerator from "vue-form-generator/dist/vfg-core.js";
-import "vue-form-generator/dist/vfg-core.css";  // optional core css additions
+import BootstrapVue from 'bootstrap-vue';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 window.Vue = require('vue');
-
+Vue.use(BootstrapVue);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
