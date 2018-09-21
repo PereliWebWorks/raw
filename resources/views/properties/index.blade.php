@@ -1,11 +1,9 @@
 @extends('layouts.app')
 
-@section('scripts')
+@section('component-registration')
 <script>
 	function deleteProperty(id){
-		axios.delete(route('properties.destroy', id))
-		.then(() => console.log('it worked'))
-		.catch(e => console.log(e));
+		
 	}
 
 	var properties = @json($properties);
@@ -13,24 +11,42 @@
 		properties[{{$i}}].addresses = @json($property->addresses);
 	@endforeach
 
+	//Vue.component('thang', {template: '<h1>It works finally</h1>'});
+	Vue.component('properties-list', {
+		data: function(){
+			return {properties}
+		},
+		template: `
+				<b-container id="properties-list">
+					<b-row v-for="(property, index) in properties" :key="property.id">
+						<b-col>
+							<h3>@{{property.nickname}}</h3>
+							<div v-for="address in property.addresses" :key="address.id">
+								<small>@{{address.address}}</small>
+							</div>
+						</b-col>
+						<b-col>
+							<b-button :variant="'danger'" v-on:click="deleteProperty(property.id, index)">
+								Delete
+							</b-button>
+						</b-col>
+					</b-row>
+				</b-container>
+		`,
+		methods: {
+			deleteProperty: function(id, index) {
+				axios.delete(route('properties.destroy', id))
+				.then(() => {
+					properties.splice(index, 1);
+				})
+				.catch(e => console.log(e));
+			}
+		}
+	});
 
 </script>
 @endsection
 
 @section('content')
-	<b-container id="properties-list">
-	@foreach ($properties as $property)
-		<b-row>
-			<b-col>
-				<h3>{{$property->nickname}}</h3>
-				@foreach($property->addresses as $address)
-					<div><small>{{$address->address}}</small></div>
-				@endforeach
-			</b-col>
-			<b-col>
-				<b-button :variant="'danger'" onclick="deleteProperty({{$property->id}})">Delete</b-button>
-			</b-col>
-		</b-row>
-	@endforeach
-	</b-container>
+	<properties-list></properties-list>
 @endsection

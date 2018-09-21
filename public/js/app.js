@@ -20643,10 +20643,6 @@ Vue.component('unauthorized-user-list', __webpack_require__(78));
 Vue.component('new-client-form', __webpack_require__(76));
 Vue.component('new-property-form', __webpack_require__(77));
 
-var app = new Vue({
-  el: '#app'
-});
-
 var axios = __webpack_require__(39);
 
 /***/ }),
