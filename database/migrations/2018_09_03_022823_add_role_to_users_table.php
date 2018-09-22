@@ -15,10 +15,10 @@ class AddRoleToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedInteger('role_id')->nullable();
-            /*$table->foreign('role_id')
+            $table->foreign('role_id')
                 ->references('id')
                 ->on('roles')
-                ->onDelete('set null');*/
+                ->onDelete('set null');
         });
     }
 
@@ -30,6 +30,7 @@ class AddRoleToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('users_role_id_foreign');
             $table->dropColumn('role_id');
         });
     }

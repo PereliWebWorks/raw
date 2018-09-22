@@ -27,6 +27,7 @@ class AddPropertyIdToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('users_property_id_foreign');
             $table->dropColumn('property_id');
         });
     }

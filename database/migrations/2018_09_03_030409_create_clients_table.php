@@ -18,7 +18,6 @@ class CreateClientsTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->unsignedInteger('property_id')->nullable();
-            $table->foreign('property_id')->references('id')->on('properties');
             $table->date('admit_date')->nullable();
             $table->date('discharge_date')->nullable();
             $table->string('email')->nullable();
