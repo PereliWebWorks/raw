@@ -72,12 +72,44 @@
 			reset: function(){return false;}
 		}
 	});
+
+
+	Vue.component('form-test', {
+		template: `
+			<v-form :groups="groups" />
+		`,
+		data: function(){
+			return {
+				groups: {
+					'client_info': {
+						fields: {
+							first_name: {},
+							last_name: {},
+							email: {type: 'email'},
+							phone: {type: 'tel'},
+							admit_date: {type: 'date'},
+							discharge_date: {type: 'date'},
+
+						}
+					},
+					'financial_representative_info': {
+						fields: {
+							frp_first_name: {},
+							frp_last_name: {},
+							frp_email: {type: 'email'},
+							frp_phone: {type: 'tel'}
+						}
+					}
+				}
+			}
+		}
+	});
 </script>
 @endsection
 
 @section('content')
 
-	<new-client-form/>
+<form-test />
 	
 
 @endsection

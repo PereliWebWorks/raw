@@ -28,7 +28,7 @@ var baseComponents = [
 	'input/buttons/btn',
 	'input/buttons/delete-btn',
 	'input/buttons/approve-btn',
-	'input/fields/text-base'
+	'input/form/v-form'
 ];
 
 baseComponents.forEach(fileName => {

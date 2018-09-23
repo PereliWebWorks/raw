@@ -14,6 +14,7 @@
 		</b-form-group>
 		<b-form-group
 			v-for="n in addressCount"
+			:key="n"
 			:label="'Address ' + n + ':'"
 			:label-for="'address-' + n"
 		>

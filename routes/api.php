@@ -25,4 +25,7 @@ Route::middleware('auth:api')->group(function() {
 		Route::apiResource('user_authorizations', 'Api\UserAuthorizationController');
 		Route::apiResource('properties', 'Api\PropertyController');
 	});
+
+	Route::apiResource('referrant_orgs', 'Api\ReferrantOrganizationController');
+	Route::apiResource('referrants', 'Api\ReferrantController');
 });
