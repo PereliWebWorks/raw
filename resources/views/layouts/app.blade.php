@@ -16,7 +16,7 @@
     <!-- Scripts -->
     @routes
     <script>
-        var laravel_errors = @json($errors) || null;
+        var response_data = @json(get_defined_vars()['__data']);
     </script>
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')

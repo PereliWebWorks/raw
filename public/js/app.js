@@ -37024,16 +37024,31 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_bootstrap_vue__["a" /* default */]);
 Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_bootstrap_datetimepicker___default.a);
 
 var store = new __WEBPACK_IMPORTED_MODULE_5_vuex__["a" /* default */].Store({
-	state: {
-		message: laravel_errors ? laravel_errors[0] : false,
-		variant: laravel_errors ? 'danger' : false
-	},
-	mutations: {
-		setMessage: function setMessage(state, params) {
-			state.message = params.message;
-			state.variant = params.variant ? params.variant : false;
-		}
-	}
+  state: {
+
+    message: {
+      text: response_data.errors ? response_data.errors[0] : false,
+      variant: response_data.errors ? 'danger' : false
+    },
+    data: response_data
+  },
+  mutations: {
+    setMessage: function setMessage(state, params) {
+      state.message.text = params.message;
+      state.message.variant = params.variant ? params.variant : false;
+    },
+
+    //Right now assumes this is just for removing an entry from an array in 'data'
+    deleteData: function deleteData(state, params) {
+      var index = state.data[params.type].findIndex(function (el) {
+        return el.id === params.id;
+      });
+      state.data[params.type].splice(index, 1);
+    },
+    addData: function addData(state, params) {
+      state.data[params.type].push(params.data);
+    }
+  }
 });
 
 window.store = store;
@@ -37049,8 +37064,8 @@ var baseComponentPath = './components/general/';
 var baseComponents = ['message', 'icon', 'input/buttons/delete-btn', 'input/buttons/approve-btn', 'input/buttons/edit-btn', 'input/form/v-form'];
 
 baseComponents.forEach(function (fileName) {
-	var compName = fileName.split('/').pop();
-	Vue.component(compName, __webpack_require__(358)(baseComponentPath + fileName + '.vue'));
+  var compName = fileName.split('/').pop();
+  Vue.component(compName, __webpack_require__(358)(baseComponentPath + fileName + '.vue'));
 });
 
 //Load regular components
@@ -37058,24 +37073,23 @@ baseComponents.forEach(function (fileName) {
 Vue.component('unauthorized-user-list', __webpack_require__(203));
 //Vue.component('new-client-form', require('./components/clients/NewClientForm.vue'));
 Vue.component('new-property-form', __webpack_require__(202));
+Vue.component('referrant-org-list', __webpack_require__(411));
 
 Vue.mixin({
-	methods: {
-		humanize: function humanize(str) {
-			return S(str).humanize().titleCase().s;
-		},
-		add_autocomplete: function add_autocomplete(element, options) {
-			options.container = function () {
-				return document.createElement('div');
-			};
-			new Awesomplete(element, options);
-		},
-		get_route: function get_route(action) {
-			var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  methods: {
+    humanize: function humanize(str) {
+      return S(str).humanize().titleCase().s;
+    },
+    add_autocomplete: function add_autocomplete(element, options) {
+      if (!options.minChars) options.minChars = 1;
+      new Awesomplete(element, options);
+    },
+    get_route: function get_route(action) {
+      var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-			return route(action, data);
-		}
-	}
+      return route(action, data);
+    }
+  }
 });
 
 var axios = __webpack_require__(41);
@@ -86393,6 +86407,7 @@ var map = {
 	"./components/passport/Clients.vue": 382,
 	"./components/passport/PersonalAccessTokens.vue": 387,
 	"./components/properties/NewPropertyForm.vue": 202,
+	"./components/referrant_orgs/ReferrantOrgList.vue": 411,
 	"./components/unauthorized_users/UnauthorizedUserList.vue": 203
 };
 function webpackContext(req) {
@@ -86814,7 +86829,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	mounted: function mounted() {
 		if (this._autocomplete_list) {
-			this.add_autocomplete($('#' + this._id)[0], { list: this._autocomplete_list });
+			console.log(this._autocomplete_list);
+			this.add_autocomplete($('#' + this._id).get(0), { list: this._autocomplete_list });
 		}
 	}
 });
@@ -90586,10 +90602,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
 	computed: {
 		message: function message() {
-			return this.$store.state.message;
+			return this.$store.state.message.text;
 		},
 		variant: function variant() {
-			return this.$store.state.variant;
+			return this.$store.state.message.variant;
 		}
 	}
 });
@@ -90837,6 +90853,164 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		type: { required: true }
 	}
 });
+
+/***/ }),
+/* 408 */,
+/* 409 */,
+/* 410 */,
+/* 411 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(8)
+/* script */
+var __vue_script__ = __webpack_require__(412)
+/* template */
+var __vue_template__ = __webpack_require__(413)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/referrant_orgs/ReferrantOrgList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3aae0efc", Component.options)
+  } else {
+    hotAPI.reload("data-v-3aae0efc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 412 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var _props$props$methods;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = (_props$props$methods = {
+	props: ['referrant_orgs']
+}, _defineProperty(_props$props$methods, 'props', {
+	referrant_orgs: { required: true }
+}), _defineProperty(_props$props$methods, 'methods', {
+	orgRemoved: function orgRemoved(id) {
+		this.$store.commit('deleteData', { type: 'referrant_orgs', id: id });
+	}
+}), _props$props$methods);
+
+/***/ }),
+/* 413 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "span",
+    [
+      _c("h3", [_vm._v("Referrant Organizations")]),
+      _vm._v(" "),
+      _c(
+        "b-list-group",
+        _vm._l(_vm.referrant_orgs, function(org) {
+          return _c(
+            "b-list-group-item",
+            {
+              key: org.id,
+              staticClass: "d-flex justify-content-between align-items-center"
+            },
+            [
+              _vm._v(
+                "\r\n\t\t\t" + _vm._s(_vm.humanize(org.name)) + "\r\n\t\t\t"
+              ),
+              _c(
+                "span",
+                { staticClass: "d-flex justify-content-start" },
+                [
+                  _c("edit-btn", { staticClass: "m-2" }),
+                  _vm._v(" "),
+                  _c("delete-btn", {
+                    staticClass: "m-2",
+                    attrs: {
+                      resource_id: org.id,
+                      resource_type: "referrant organization",
+                      resource_name: org.name,
+                      route: _vm.get_route("referrant_orgs.destroy", org.id),
+                      succeed: _vm.orgRemoved
+                    }
+                  })
+                ],
+                1
+              )
+            ]
+          )
+        })
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3aae0efc", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

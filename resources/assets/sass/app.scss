@@ -16,3 +16,13 @@
 .message-container{
 	min-height: 65px;
 }
+
+.awesomplete{
+	display: inherit;
+	position: inherit;
+}
+
+.awesomplete mark {
+	background-color: rgb(204,204,255);
+	padding: 0px;
+}

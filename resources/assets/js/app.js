@@ -22,13 +22,25 @@ Vue.use(datePicker);
 
 const store = new Vuex.Store({
   state: {
-    message: laravel_errors ? laravel_errors[0] : false,
-    variant: laravel_errors ? 'danger' : false
+    
+    message: {
+    	text: response_data.errors ? response_data.errors[0] : false,
+	    variant: response_data.errors ? 'danger' : false 
+    },
+    data: response_data
   },
   mutations: {
-    setMessage (state, params) {
-      state.message = params.message;
-      state.variant = params.variant ? params.variant : false;
+    setMessage(state, params) {
+      state.message.text = params.message;
+      state.message.variant = params.variant ? params.variant : false;
+    },
+    //Right now assumes this is just for removing an entry from an array in 'data'
+    deleteData(state, params) {
+    	var index = state.data[params.type].findIndex(el => el.id === params.id);
+    	state.data[params.type].splice(index, 1);
+    },
+    addData(state, params) {
+    	state.data[params.type].push(params.data);
     }
   }
 });
@@ -64,6 +76,7 @@ baseComponents.forEach(fileName => {
 Vue.component('unauthorized-user-list', require('./components/unauthorized_users/UnauthorizedUserList.vue'));
 //Vue.component('new-client-form', require('./components/clients/NewClientForm.vue'));
 Vue.component('new-property-form', require('./components/properties/NewPropertyForm.vue'));
+Vue.component('referrant-org-list', require('./components/referrant_orgs/ReferrantOrgList.vue'));
 
 
 
@@ -73,9 +86,7 @@ Vue.mixin({
 			return S(str).humanize().titleCase().s;
 		},
 		add_autocomplete: function(element, options){
-			options.container = function(){
-				return document.createElement('div');
-			}
+			if (!options.minChars) options.minChars = 1;
 			new Awesomplete(element, options);
 		},
 		get_route: function(action, data=null){

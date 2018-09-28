@@ -51,8 +51,9 @@
 		},
 		mounted: function(){
 			if (this._autocomplete_list){
+				console.log(this._autocomplete_list);
 				this.add_autocomplete(
-					$('#' + this._id)[0], 
+					$('#' + this._id).get(0), 
 					{list: this._autocomplete_list}
 				);
 			}

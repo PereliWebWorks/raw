@@ -10481,3 +10481,13 @@ a.text-dark:focus {
   min-height: 65px;
 }
 
+.awesomplete {
+  display: inherit;
+  position: inherit;
+}
+
+.awesomplete mark {
+  background-color: #ccccff;
+  padding: 0px;
+}
+

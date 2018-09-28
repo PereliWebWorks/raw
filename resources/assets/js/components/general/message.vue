@@ -17,10 +17,10 @@
 	export default{
 		computed: {
 			message () {
-				return this.$store.state.message;
+				return this.$store.state.message.text;
 			},
 			variant() {
-				return this.$store.state.variant;
+				return this.$store.state.message.variant;
 			}
 		}
 	}
