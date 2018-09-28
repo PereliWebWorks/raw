@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\ReferrantOrganization;
 
-class ReferrantCompanyController extends Controller
+class ReferrantOrganizationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +26,14 @@ class ReferrantCompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'bail|required|unique:referrant_organizations'
+        ]);
+        $org = ReferrantOrganization::create(['name' => strtolower($request->name)]);
+        if ($org){
+            return response()->json($org);
+        }
+        return abort(500);
     }
 
     /**
@@ -59,6 +67,6 @@ class ReferrantCompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        ReferrantOrganization::destroy($id);
     }
 }

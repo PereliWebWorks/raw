@@ -15,13 +15,17 @@
 
     <!-- Scripts -->
     @routes
+    <script>
+        var laravel_errors = @json($errors) || null;
+    </script>
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')
     @yield('component-registration')
     <script>
         $(() => {
             const app = new Vue({
-                el: '#app'
+                el: '#app',
+                store
             });
         });
     </script>
@@ -31,6 +35,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -85,12 +90,19 @@
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
-            <b-col>
-                @yield('content')
-            </b-col>
-        </main>
+        <br/><br/>
+        <b-container fluid>
+            <b-row>
+                <b-col md="6" offset-md="3">
+                    <message />
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col>
+                    @yield('content')
+                </b-col>
+            </b-row>
+        </b-container>
     </div>
 </body>
 </html>
