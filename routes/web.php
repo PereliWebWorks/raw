@@ -23,6 +23,9 @@ Route::middleware('is_authorized')->group(function () {
 	Route::resource('clients', 'ClientController');
 	Route::resource('referrant_orgs', 'ReferrantOrganizationController')
 		->only(['index', 'create', 'edit']);
+	Route::resource('referrants', 'ReferrantController')
+		->only(['index', 'create', 'edit']);
+
 
 });
 

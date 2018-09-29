@@ -43,7 +43,9 @@
 				validator: function(val){
 					return ['post', 'get', 'delete', 'put'].indexOf(val) !== -1;
 				}
-			}
+			},
+			route: {required: true},
+			displayMessageOnSuccess: {default: false}
 		},
 		data: function(){
 			return {
@@ -54,13 +56,16 @@
 		methods: {
 			submit: function(e){
 				e.preventDefault();
-				axios[this.method](route('referrant_orgs.store', this.form))
+				axios[this.method](this.route, this.form)
 				.then(response => {
 					if (this.succeed){
 						this.succeed(response);
 					}
 					if (this.clearFieldsOnSuccess){
 						this.reset();
+					}
+					if (this.displayMessageOnSuccess){
+						this.$store.commit('setMessage', {message: 'Item added!', variant: 'success'});
 					}
 				})
 				.catch(error => {

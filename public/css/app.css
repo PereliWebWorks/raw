@@ -10481,13 +10481,22 @@ a.text-dark:focus {
   min-height: 65px;
 }
 
+/*
+.awesomplete{
+	display: inherit !important;
+	position: inherit !important;
+}
+*/
+
 .awesomplete {
-  display: inherit;
-  position: inherit;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
 }
 
 .awesomplete mark {
-  background-color: #ccccff;
+  background-color: rgba(0, 0, 0, 0);
+  background: inherit;
   padding: 0px;
 }
 

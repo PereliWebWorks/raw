@@ -86,8 +86,30 @@ Vue.mixin({
 			return S(str).humanize().titleCase().s;
 		},
 		add_autocomplete: function(element, options){
-			if (!options.minChars) options.minChars = 1;
-			new Awesomplete(element, options);
+			var defaultOptions = {
+				minChars: 0,
+				autoFirst: true
+			};
+			Object.assign(defaultOptions, options);
+			var awesomplete_element = new Awesomplete(element, defaultOptions);
+			$(element).focus(() => {
+				awesomplete_element.open();
+				awesomplete_element.evaluate();
+			});
+			if (options.dropdown_btn){
+				options.dropdown_btn.addEventListener("click", function() {
+					if (awesomplete_element.ul.childNodes.length === 0) {
+						awesomplete_element.minChars = 0;
+						awesomplete_element.evaluate();
+					}
+					else if (awesomplete_element.ul.hasAttribute('hidden')) {
+						awesomplete_element.open();
+					}
+					else {
+						awesomplete_element.close();
+					}
+				});
+			}
 		},
 		get_route: function(action, data=null){
 			return route(action, data);
@@ -97,3 +119,4 @@ Vue.mixin({
 
 
 const axios = require('axios');
+

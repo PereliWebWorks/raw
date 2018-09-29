@@ -12,13 +12,17 @@
 		props: ['referrant_orgs'],
 		data: function(){
 			return {
-				fields: {
+				route: route('referrant_orgs.store')
+			}
+		},
+		computed: {
+			fields: function(){
+				return {
 					'name': {
 						required: true,
 						autocomplete_list: this.referrant_orgs.map(el => this.humanize(el.name))
 					}
-				},
-				route: route('referrant_orgs.store')
+				}
 			}
 		},
 		methods: {
@@ -64,7 +68,5 @@
 @endsection
 
 @section('content')
-	<div>
-	</div>
 	<page />
 @endsection
