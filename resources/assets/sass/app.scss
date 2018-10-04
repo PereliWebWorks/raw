@@ -24,6 +24,8 @@
 }
 */
 
+
+
 .awesomplete{
 	flex-grow: 1;
 }
@@ -32,4 +34,17 @@
 	background-color: rgba(0,0,0,0);
 	background: inherit;
 	padding: 0px;
+}
+
+.input-group{
+  display: flex;
+  flex-direction: column;
+
+
+}
+
+.form-field-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }

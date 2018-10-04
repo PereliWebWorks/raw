@@ -5,99 +5,28 @@
 <script>
 	Vue.component('new-client-form', {
 		template: `
-			<b-form v-on:submit="submit" v-on:reset="reset">
-				<b-card v-for="(group, groupName) in fieldGroups" :key="groupName">
-					<b-form-group 
-						horizontal
-						:label="group.label ? group.label : humanize(groupName)"
-						label-size="lg"
-						label-class="font-weight-bold"
-					>
-						<template v-for="(field, fieldName) in group.fields">
-							<b-form-group 
-								:label="field.label ? field.label : humanize(fieldName)"
-								:label-for="field.id ? field.id : fieldName"
-							>
-							<date-picker
-								v-if="field.type && field.type === 'date'"
-								:id="field.id ? field.id : fieldName"
-								value="new Date()"
-								:config="{format: 'MMMM Do, YYYY', }"
-								v-model="form[fieldName]"
-							/>	
-							<b-form-input
-								v-else
-								:id="field.id ? field.id : fieldName"
-								:type="field.type ? field.type : 'text'"
-								v-model="form[fieldName]"
-							/>
-							</b-form-group>
-						</template>
-					</b-form-group>
-				</b-card>
-				<b-button type="submit" variant="primary">Submit</b-button>
-			</b-form> 
+			<v-form :groups="groups" :route="route" />
 		`,
 		data: function(){
 			return {
-				fieldGroups: {
-					'client_info': {
-						fields: {
-							first_name: {},
-							last_name: {},
-							email: {type: 'email'},
-							phone: {type: 'tel'},
-							admit_date: {type: 'date'},
-							discharge_date: {type: 'date'},
-
-						}
-					},
-					'financial_representative_info': {
-						fields: {
-							frp_first_name: {},
-							frp_last_name: {},
-							frp_email: {type: 'email'},
-							frp_phone: {type: 'tel'}
-						}
-					}
-				},
-				form: {}
+				route: route('clients.store')
 			}
 		},
-		methods: {
-			submit: function(e){
-				e.preventDefault();
-				console.log(this.form);
-			},
-			reset: function(){return false;}
-		}
-	});
-
-
-	Vue.component('form-test', {
-		template: `
-			<v-form :groups="groups" />
-		`,
-		data: function(){
-			return {
-				groups: {
-					'client_info': {
+		computed: {
+			groups: function(){
+				return {
+					client_info: {
 						fields: {
 							first_name: {},
 							last_name: {},
-							email: {type: 'email'},
-							phone: {type: 'tel'},
-							admit_date: {type: 'date'},
-							discharge_date: {type: 'date'},
-
-						}
-					},
-					'financial_representative_info': {
-						fields: {
-							frp_first_name: {},
-							frp_last_name: {},
-							frp_email: {type: 'email'},
-							frp_phone: {type: 'tel'}
+							email: {required: false},
+							phone: {required: false},
+							property: {
+								//autocomplete_list: this.$store.state.data.properties.map(e => this.humanize(e.name)),
+								//autocomplete_dropdown: true
+							},
+							discharge_date: {type: 'date', required: false},
+							admit_date: {type: 'date'}
 						}
 					}
 				}
@@ -109,7 +38,7 @@
 
 @section('content')
 
-<form-test />
+<new-client-form />
 	
 
 @endsection

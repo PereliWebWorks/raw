@@ -12,4 +12,8 @@ class ReferrantOrganization extends Model
     public function referrants(){
     	return $this->hasMany(Referrant::class);
     }
+
+    public static function humanizedNameToDBName($name){
+    	return strtolower($name);
+    }
 }

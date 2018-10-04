@@ -31,8 +31,10 @@ const store = new Vuex.Store({
   },
   mutations: {
     setMessage(state, params) {
-      state.message.text = params.message;
-      state.message.variant = params.variant ? params.variant : false;
+  		//Check for required params
+  		if (!params.text) throw new Error('Text field must be set when setting message');
+		state.message.text = params.text;
+		state.message.variant = params.variant ? params.variant : false;
     },
     //Right now assumes this is just for removing an entry from an array in 'data'
     deleteData(state, params) {
@@ -96,8 +98,9 @@ Vue.mixin({
 				awesomplete_element.open();
 				awesomplete_element.evaluate();
 			});
+			
 			if (options.dropdown_btn){
-				options.dropdown_btn.addEventListener("click", function() {
+				Awesomplete.$(options.dropdown_btn).addEventListener("click", function() {
 					if (awesomplete_element.ul.childNodes.length === 0) {
 						awesomplete_element.minChars = 0;
 						awesomplete_element.evaluate();

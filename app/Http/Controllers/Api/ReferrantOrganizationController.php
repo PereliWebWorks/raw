@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\ReferrantOrganization;
+use App\ReferrantOrganization as RefOrg;
 
 class ReferrantOrganizationController extends Controller
 {
@@ -29,7 +29,7 @@ class ReferrantOrganizationController extends Controller
         $request->validate([
             'name' => 'bail|required|unique:referrant_organizations'
         ]);
-        $org = ReferrantOrganization::create(['name' => strtolower($request->name)]);
+        $org = RefOrg::create(['name' => RefOrg::humanNameToDBName($request->name)]);
         if ($org){
             return response()->json($org);
         }

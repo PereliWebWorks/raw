@@ -20,7 +20,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('is_authorized')->group(function () {
-	Route::resource('clients', 'ClientController');
+	Route::resource('clients', 'ClientController')
+		->only(['index', 'create', 'edit']);
 	Route::resource('referrant_orgs', 'ReferrantOrganizationController')
 		->only(['index', 'create', 'edit']);
 	Route::resource('referrants', 'ReferrantController')

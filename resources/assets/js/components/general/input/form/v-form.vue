@@ -35,7 +35,7 @@
 		props: {
 			groups: {},
 			fields: {},
-			succeed: {default: false},
+			succeed: {default: false}, //Callbacks for succeeding and failing
 			fail: {default: false},
 			clearFieldsOnSuccess: {default: true},
 			method: {
@@ -45,7 +45,8 @@
 				}
 			},
 			route: {required: true},
-			displayMessageOnSuccess: {default: false}
+			displayMessageOnSuccess: {default: false},
+			displayMessageOnFail: {default: true}
 		},
 		data: function(){
 			return {
@@ -65,12 +66,17 @@
 						this.reset();
 					}
 					if (this.displayMessageOnSuccess){
-						this.$store.commit('setMessage', {message: 'Item added!', variant: 'success'});
+						this.$store.commit('setMessage', {text: 'Item added!', variant: 'success'});
 					}
 				})
 				.catch(error => {
+					console.log(error.response);
 					if (this.fail){
 						this.fail(error.response);
+					}
+					if (this.displayMessageOnFail){
+						var text = error.response.data.message;
+						this.$store.commit('setMessage', {text: text, variant: 'danger'});
 					}
 				});
 			},

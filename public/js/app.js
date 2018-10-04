@@ -37081,7 +37081,9 @@ var store = new __WEBPACK_IMPORTED_MODULE_5_vuex__["a" /* default */].Store({
 	},
 	mutations: {
 		setMessage: function setMessage(state, params) {
-			state.message.text = params.message;
+			//Check for required params
+			if (!params.text) throw new Error('Text field must be set when setting message');
+			state.message.text = params.text;
 			state.message.variant = params.variant ? params.variant : false;
 		},
 
@@ -37138,8 +37140,9 @@ Vue.mixin({
 				awesomplete_element.open();
 				awesomplete_element.evaluate();
 			});
+
 			if (options.dropdown_btn) {
-				options.dropdown_btn.addEventListener("click", function () {
+				Awesomplete.$(options.dropdown_btn).addEventListener("click", function () {
 					if (awesomplete_element.ul.childNodes.length === 0) {
 						awesomplete_element.minChars = 0;
 						awesomplete_element.evaluate();
@@ -88004,6 +88007,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -88025,10 +88034,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return this.field.id || this.name;
 		},
 		_type: function _type() {
-			return this.field.type || 'text';
+			if (this.field.type) return this.field.type;
+			if (this.name.toLowerCase() === 'email') return 'email';
+			if (this.name.toLowerCase() === 'phone') return 'tel';
+			return 'text';
 		},
 		_label: function _label() {
-			return this.label || this.humanize(this.name);
+			var l = this.label || this.humanize(this.name);
+			if (this._required) l += ' *';
+			return l;
 		},
 		_required: function _required() {
 			return 'required' in this.field ? this.field.required : true;
@@ -88042,14 +88056,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		_autocomplete_dropdown: function _autocomplete_dropdown() {
 			return !!this.field.autocomplete_dropdown;
+		},
+		_help_text: function _help_text() {
+			return this.field.help_text;
 		}
 	},
+	data: function data() {
+		return {
+			datePickerConfig: {
+				format: 'MMMM Do, YYYY',
+				useCurrent: false,
+				showClose: true,
+				showClear: true
+			}
+		};
+	},
 	mounted: function mounted() {
+		var _this = this;
+
 		if (this._autocomplete_list) {
-			this.add_autocomplete($('#' + this._id).get(0), {
+			var element = $('#' + this._id).get(0);
+			this.add_autocomplete(element, {
 				list: this._autocomplete_list,
 				dropdown_btn: this._autocomplete_dropdown ? $('#' + this._id + '-dropdown-btn').get(0) : false
 			});
+			if (this._autocomplete_dropdown) {
+				$(element).on('awesomplete-selectcomplete', function (e) {
+					var text = e.originalEvent.text.value;
+					_this.$emit('input', text);
+				});
+			}
 		}
 	}
 });
@@ -88066,56 +88102,71 @@ var render = function() {
     "b-form-group",
     { attrs: { label: _vm._label, "label-for": _vm._id } },
     [
-      _c(
-        "b-input-group",
-        [
-          _vm._type === "date"
-            ? _c("date-picker", {
-                attrs: {
-                  id: _vm._id,
-                  value: "new Date()",
-                  config: { format: "MMMM Do, YYYY" },
-                  value: _vm.value,
-                  required: _vm._required
-                },
-                on: {
-                  input: function($event) {
-                    _vm.$emit("input", $event.target.value)
+      _c("b-input-group", { staticClass: "input-group" }, [
+        _c(
+          "div",
+          { staticClass: "form-field-container" },
+          [
+            _vm._type === "date"
+              ? _c("date-picker", {
+                  attrs: {
+                    id: _vm._id,
+                    config: _vm.datePickerConfig,
+                    value: _vm._required ? new Date() : null,
+                    required: _vm._required
+                  },
+                  on: {
+                    input: function($event) {
+                      _vm.$emit("input", $event)
+                    }
                   }
-                }
-              })
-            : _c("b-form-input", {
-                attrs: {
-                  id: _vm._id,
-                  type: _vm._type,
-                  value: _vm.value,
-                  required: _vm._required
-                },
-                on: {
-                  input: function($event) {
-                    _vm.$emit("input", $event)
+                })
+              : _c("b-form-input", {
+                  attrs: {
+                    id: _vm._id,
+                    type: _vm._type,
+                    value: _vm.value,
+                    required: _vm._required
+                  },
+                  on: {
+                    input: function($event) {
+                      _vm.$emit("input", $event)
+                    }
                   }
-                }
-              }),
-          _vm._v(" "),
-          _vm._autocomplete_dropdown
-            ? _c(
-                "b-input-group-append",
-                { attrs: { id: _vm._id + "-dropdown-btn" } },
-                [
-                  _c(
-                    "b-btn",
-                    { attrs: { variant: "info" } },
-                    [_c("icon", { attrs: { type: "caret-down" } })],
-                    1
-                  )
-                ],
-                1
-              )
-            : _vm._e()
-        ],
-        1
-      )
+                }),
+            _vm._v(" "),
+            _vm._autocomplete_dropdown
+              ? _c(
+                  "b-input-group-append",
+                  { attrs: { id: _vm._id + "-dropdown-btn" } },
+                  [
+                    _c(
+                      "b-btn",
+                      { attrs: { variant: "info" } },
+                      [_c("icon", { attrs: { type: "caret-down" } })],
+                      1
+                    )
+                  ],
+                  1
+                )
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _vm._help_text
+          ? _c(
+              "div",
+              { staticClass: "help-text-container" },
+              [
+                _c("b-form-text", [
+                  _vm._v("\r\n\t\t\t\t" + _vm._s(_vm._help_text) + "\r\n\t\t\t")
+                ])
+              ],
+              1
+            )
+          : _vm._e()
+      ])
     ],
     1
   )
@@ -88220,7 +88271,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	props: {
 		groups: {},
 		fields: {},
-		succeed: { default: false },
+		succeed: { default: false }, //Callbacks for succeeding and failing
 		fail: { default: false },
 		clearFieldsOnSuccess: { default: true },
 		method: {
@@ -88230,7 +88281,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}
 		},
 		route: { required: true },
-		displayMessageOnSuccess: { default: false }
+		displayMessageOnSuccess: { default: false },
+		displayMessageOnFail: { default: true }
 	},
 	data: function data() {
 		return {
@@ -88251,11 +88303,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					_this.reset();
 				}
 				if (_this.displayMessageOnSuccess) {
-					_this.$store.commit('setMessage', { message: 'Item added!', variant: 'success' });
+					_this.$store.commit('setMessage', { text: 'Item added!', variant: 'success' });
 				}
 			}).catch(function (error) {
+				console.log(error.response);
 				if (_this.fail) {
 					_this.fail(error.response);
+				}
+				if (_this.displayMessageOnFail) {
+					var text = error.response.data.message;
+					_this.$store.commit('setMessage', { text: text, variant: 'danger' });
 				}
 			});
 		},
