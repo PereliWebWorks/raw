@@ -36,6 +36,20 @@
 
 <script>
 
+	/*
+	var inputElement = Vue.component('input-element', {
+		render: function(createElement){
+
+		},
+		props: {
+			type: {},
+			id: {},
+			config: {},
+			value: {},
+			required: {}
+		}
+	});
+	*/
 
 	export default{
 		props: {
@@ -60,7 +74,7 @@
 				return 'text';
 			},
 			_label: function(){
-				var l = this.label || this.humanize(this.name);
+				var l = this.field.label || this.humanize(this.name);
 				if (this._required) l += ' *';
 				return l;
 			},

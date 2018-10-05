@@ -3,13 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Traits\HumanizedStringToDBTrait as DBString;
 
 class Property extends Model
 {
 
-	protected $fillable = ['nickname'];
+	use DBString;
 
-    public function addresses(){
-    	return $this->hasMany(Address::class);
-    }
+	protected $fillable = ['nickname'];
 }

@@ -36,9 +36,9 @@ class ReferrantController extends Controller
         $response = [];
         //see if the organization exists
         //If not, create it
-        $refOrg = RefOrg::where('name', RefOrg::humanizedNameToDBName($request->referrant_organization))->first();
+        $refOrg = RefOrg::where('name', RefOrg::humanizedStringToDB($request->referrant_organization))->first();
         if (is_null($refOrg)){
-            $refOrg = RefOrg::create(['name' => RefOrg::humanizedNameToDBName($request->referrant_organization)]);
+            $refOrg = RefOrg::create(['name' => RefOrg::humanizedStringToDB($request->referrant_organization)]);
             $response['referrant_org'] = $refOrg;
         }
         $ref = Ref::create([

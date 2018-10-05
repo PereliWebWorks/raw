@@ -38,9 +38,9 @@ class PropertyController extends Controller
         }
 
         foreach ($request->address as $address){
-            Address::create(['property_id' => $property->id, 'address' => $address]);
+            Address::create(['property_id' => $property->id, 'address' => Address::humanizedStringToDB($address)]);
         }
-        return response(200);
+        return response()->json($property);
     }
 
     /**

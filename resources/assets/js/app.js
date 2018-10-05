@@ -10,9 +10,9 @@ import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import datePicker from 'vue-bootstrap-datetimepicker';
 import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
-var Awesomplete = require('awesomplete');
 import 'awesomplete/awesomplete.css';
 import Vuex from 'vuex';
+var Awesomplete = require('awesomplete');
 var S = require('string');
 window.Vue = require('vue');
 Vue.config.devtools = true;
@@ -64,7 +64,8 @@ var baseComponents = [
 	'input/buttons/delete-btn',
 	'input/buttons/approve-btn',
 	'input/buttons/edit-btn',
-	'input/form/v-form'
+	'input/form/v-form',
+	'input/form/v-field'
 ];
 
 baseComponents.forEach(fileName => {
@@ -77,7 +78,7 @@ baseComponents.forEach(fileName => {
 
 Vue.component('unauthorized-user-list', require('./components/unauthorized_users/UnauthorizedUserList.vue'));
 //Vue.component('new-client-form', require('./components/clients/NewClientForm.vue'));
-Vue.component('new-property-form', require('./components/properties/NewPropertyForm.vue'));
+//Vue.component('new-property-form', require('./components/properties/NewPropertyForm.vue'));
 Vue.component('referrant-org-list', require('./components/referrant_orgs/ReferrantOrgList.vue'));
 
 

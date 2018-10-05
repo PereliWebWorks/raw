@@ -29,7 +29,7 @@ class ReferrantOrganizationController extends Controller
         $request->validate([
             'name' => 'bail|required|unique:referrant_organizations'
         ]);
-        $org = RefOrg::create(['name' => RefOrg::humanNameToDBName($request->name)]);
+        $org = RefOrg::create(['name' => RefOrg::humanizedStringToDB($request->name)]);
         if ($org){
             return response()->json($org);
         }

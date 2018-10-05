@@ -20,7 +20,6 @@
 	<b-form-group>
 		<b-button type="submit" variant="primary">Submit</b-button>
 		<b-button type="reset" variant="secondary">Reset</b-button>
-
 	</b-form-group>
 </b-form> 
 </template>
@@ -29,7 +28,7 @@
 
 	import field from './v-field';
 
-	
+
 
 	export default{
 		props: {
@@ -46,9 +45,12 @@
 			},
 			route: {required: true},
 			displayMessageOnSuccess: {default: false},
-			displayMessageOnFail: {default: true}
+			displayMessageOnFail: {default: true},
+			preFields: {},
+			postFields: {}
 		},
 		data: function(){
+
 			return {
 				form: {},
 				show: true
@@ -57,6 +59,7 @@
 		methods: {
 			submit: function(e){
 				e.preventDefault();
+				console.log(this.form);
 				axios[this.method](this.route, this.form)
 				.then(response => {
 					if (this.succeed){
@@ -84,8 +87,7 @@
 				this.form = {};
 				this.show = false;
 				this.$nextTick(() => { this.show = true });
-			},
-
+			}
 		},
 		components: {
 			'v-field': field
