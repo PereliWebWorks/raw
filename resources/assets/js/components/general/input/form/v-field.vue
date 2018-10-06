@@ -5,6 +5,7 @@
 >
 	<b-input-group class="input-group">
 		<div class="form-field-container">
+
 			<date-picker
 				v-if="_type === 'date'"
 				:id="_id"
@@ -21,6 +22,8 @@
 				v-on:input="$emit('input', $event)"
 				:required="_required"
 			/>
+
+
 			<b-input-group-append v-if="_autocomplete_dropdown" :id="_id + '-dropdown-btn'">
 				<b-btn  variant="info"><icon type="caret-down" /></b-btn>
 			</b-input-group-append>
@@ -39,14 +42,30 @@
 	/*
 	var inputElement = Vue.component('input-element', {
 		render: function(createElement){
-
+			var id = this.field.id = this.name;
+			var type = this.field.type ? this.field.type :
+						this.name.toLowerCase() === 'email' ? 'email' :
+						this.name.toLowerCase() === 'phone' ? 'phone' :
+						'text';
+			var required = 'required' in this.field && this.field.required === true;
+			var label = this.field.label || this.humanize(this.name);
+			if (required) label += ' *';
+			var name = this.name;
+			var autocomplete_list = this.field.autocomplete_list || false;
+			var autocomplete_dropdown = this.field.autocomplete_dropdown || false;
+			var help_text = this.field.help_text || false;
+			var datePickerConfig = {
+				format: 'MMMM Do, YYYY', 
+				useCurrent: false,
+				showClose: true,
+				showClear: true
+			}
+			var value = this.value;
 		},
 		props: {
-			type: {},
-			id: {},
-			config: {},
+			field: {required: true},
 			value: {},
-			required: {}
+			name: {required: true}
 		}
 	});
 	*/
@@ -63,7 +82,8 @@
 			*/
 			value: {},
 			field: {required: true},
-			name: {required: true}
+			name: {required: true},
+			label: {}
 		},
 		computed: {
 			_id: function(){return this.field.id || this.name;},
@@ -74,7 +94,8 @@
 				return 'text';
 			},
 			_label: function(){
-				var l = this.field.label || this.humanize(this.name);
+				var l = this.label || this.field.label || this.name;
+				l = this.humanize(l);
 				if (this._required) l += ' *';
 				return l;
 			},
