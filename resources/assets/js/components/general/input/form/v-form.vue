@@ -15,7 +15,28 @@
 		</b-card>
 	</template>
 	<template v-if="fields" v-for="(field, fieldName) in fields">
-		<v-field :name="fieldName" :field="field" v-model="form[fieldName]" />
+		<template v-if="field.multi">
+			<transition-group name="fade">
+				<v-field
+					v-for="n in multiCounters[fieldName]"
+					:key="n"
+					:name="fieldName"
+					:field="field"
+					v-model="form[fieldName][n-1]"
+					:label="field.label ? field.label + ' ' + n : fieldName + ' ' + n"
+				/>
+			</transition-group>	
+				<b-button variant="primary" @click="multiCounters[fieldName]++">Add {{fieldName}}</b-button>
+				<transition-group name="zoom">
+					<b-button :key="multiCounters[fieldName] > 1" v-if="multiCounters[fieldName] > 1" variant="secondary" @click="multiCounters[fieldName]--">Remove {{fieldName}}</b-button>
+				</transition-group>
+		</template>
+		<v-field 
+			v-else
+			:name="fieldName" 
+			:field="field" 
+			v-model="form[fieldName]" 
+		/>
 	</template>
 	<b-form-group>
 		<b-button type="submit" variant="primary">Submit</b-button>
@@ -51,10 +72,12 @@
 		},
 		data: function(){
 
-			return {
-				form: {},
-				show: true
+			var data = {
+				form: this.getInitializedForm(),
+				show: true,
+				multiCounters: this.getInitializeMultiCounters()
 			}
+			return data;
 		},
 		methods: {
 			submit: function(e){
@@ -84,9 +107,28 @@
 				});
 			},
 			reset: function(){
-				this.form = {};
+				this.form = this.getInitializedForm();
+				this.multiCounters = this.getInitializeMultiCounters();
 				this.show = false;
 				this.$nextTick(() => { this.show = true });
+			},
+			getInitializedForm: function(){
+				var form = {};
+				for (var name in this.fields){
+					if (this.fields[name].multi){
+						form[name] = [];
+					}
+				}
+				return form;
+			},
+			getInitializeMultiCounters: function(){
+				var counters = {};
+				for (var name in this.fields){
+					if (this.fields[name].multi){
+						counters[name] = 1;
+					}
+				}
+				return counters;
 			}
 		},
 		components: {
